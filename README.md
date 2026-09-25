@@ -13,6 +13,14 @@ Cloned with `omarchy plugin clone omarchy.agents`, then extended with a
 
 Original MIT-licensed Omarchy source by Basecamp; deviations noted above.
 
+## Install
+
+```bash
+omarchy plugin add https://github.com/jhonoryza/omarchy-agents-pin.git --enable
+```
+
+![Agents panel with the Pin toggle](./preview.png)
+
 ---
 
 # Agents
