@@ -419,7 +419,12 @@ Item {
       finishSyncRun()
       return
     }
-    var script = "dir=$0; [[ -d \"$dir\" ]] || exit 0; shopt -s nullglob; for f in \"$dir\"/*.json; do [[ -f \"$f\" ]] || continue; printf '===%s===\\n' \"$f\"; cat \"$f\"; printf '\\n=== EOM ===\\n'; done"
+    // Producer-side caps: the sync dir is user-configured (Syncthing,
+    // Dropbox, …) and may hold unrelated or huge files. At most 32
+    // snapshots, 512 KB each, symlinks skipped — StdioCollector buffers
+    // everything below, so the combined output stays bounded no matter
+    // what lands in the directory.
+    var script = "dir=$0; [[ -d \"$dir\" ]] || exit 0; shopt -s nullglob; count=0; for f in \"$dir\"/*.json; do [[ -f \"$f\" && ! -L \"$f\" ]] || continue; size=$(stat -c %s \"$f\" 2>/dev/null || echo 0); if [[ $size -gt 524288 ]]; then continue; fi; count=$((count+1)); if [[ $count -gt 32 ]]; then break; fi; printf '===%s===\\n' \"$f\"; cat \"$f\"; printf '\\n=== EOM ===\\n'; done"
     syncScanProcess.command = ["bash", "-c", script, root.syncEffectiveDir]
     syncScanProcess.running = true
   }
