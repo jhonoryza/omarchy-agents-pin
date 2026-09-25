@@ -19,6 +19,14 @@ Original MIT-licensed Omarchy source by Basecamp; deviations noted above.
 omarchy plugin add https://github.com/jhonoryza/omarchy-agents-pin.git --enable
 ```
 
+## Removal
+
+```bash
+omarchy plugin remove dell.agents
+```
+
+Removing the clone restores the stock `omarchy.agents` widget.
+
 ![Agents panel with the Pin toggle](./preview.png)
 
 ---
