@@ -242,6 +242,7 @@ Item {
   // Short labels for agents whose full names crowd the chip row. Anything
   // not listed here keeps its record name, so stock agents render unchanged.
   readonly property var shortProviderNames: ({
+    claude: "Claude",
     opencode: "OC",
     commandcode: "CMC",
     deepseek: "DS"
