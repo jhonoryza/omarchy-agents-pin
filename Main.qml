@@ -239,6 +239,18 @@ Item {
     }
   }
 
+  // Short labels for agents whose full names crowd the chip row. Anything
+  // not listed here keeps its record name, so stock agents render unchanged.
+  readonly property var shortProviderNames: ({
+    opencode: "OC",
+    commandcode: "CMC",
+    deepseek: "DS"
+  })
+
+  function displayName(id, name) {
+    return String(shortProviderNames[id] || name || id)
+  }
+
   function displayProvider(record) {
     var stats = syncedStatsFor(String(record.id))
     var synced = !!stats
@@ -246,7 +258,7 @@ Item {
 
     return {
       providerId: String(record.id),
-      providerName: String(record.name || record.id),
+      providerName: displayName(String(record.id), String(record.name || record.id)),
       ready: record.ready === true || synced,
       usageStatusText: String(record.usageStatusText || ""),
       authHelpText: String(record.authHelpText || ""),
